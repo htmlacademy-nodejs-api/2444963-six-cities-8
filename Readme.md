@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Albert Savchenko](https://up.htmlacademy.ru/nodejs-api/8/user/2444963).
-* Наставник: `Неизвестно`.
+* Наставник: [Ruslan Semak](https://htmlacademy.ru/profile/id1451913).
 
 ---
 
