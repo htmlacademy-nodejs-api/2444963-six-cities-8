@@ -1,26 +1,16 @@
-import { readFileSync } from 'node:fs';
+import EventEmitter from 'node:events';
+import { createReadStream } from 'node:fs';
 
 import { FileReader } from './file-reader.interface.js';
 import { Offer} from '../../types/index.js';
 
-export class TSVFileReader implements FileReader {
-  private rawData = '';
+export class TSVFileReader extends EventEmitter implements FileReader {
+  private CHUNK_SIZE = 16384; // 16KB
 
   constructor(
     private readonly filename: string
-  ) {}
-
-  private validateRawData(): void {
-    if (! this.rawData) {
-      throw new Error('File was not read');
-    }
-  }
-
-  private parseRawDataToOffers(): Offer[] {
-    return this.rawData
-      .split('\n')
-      .filter((row) => row.trim().length > 0)
-      .map((line) => this.parseLineToOffer(line));
+  ) {
+    super();
   }
 
   private parseLineToOffer(line: string): Offer {
@@ -32,7 +22,6 @@ export class TSVFileReader implements FileReader {
       previewImage,
       images,
       premium,
-      favorite,
       rating,
       bedrooms,
       guests,
@@ -48,30 +37,40 @@ export class TSVFileReader implements FileReader {
       createdData: new Date(createdDate),
       city,
       previewImage,
-      images: this.parseImages(images),
-      premium: Boolean(premium),
-      favorite: Boolean(favorite),
+      images: images.split('|'),
+      premium: premium.toLocaleLowerCase() === 'true',
       rating: Number(rating),
       bedrooms: Number(bedrooms),
       guests: Number(guests),
-      amenities: this.parseImages(amenities),
+      amenities: amenities.split('|'),
       autor,
       price: Number(price),
       coordinates: {latatude: Number(coordinates.split(',')[0]), longitude: Number(coordinates.split(',')[1])}
     };
   }
 
-  private parseImages(categoriesString: string): string [] {
-    return categoriesString.split('  ');
-  }
+  public async read(): Promise<void> {
+    const readStream = createReadStream(this.filename, {
+      highWaterMark: this.CHUNK_SIZE,
+      encoding: 'utf-8',
+    });
 
+    let remainingData = '';
+    let nextLinePosition = -1;
+    let importedRowCount = 0;
 
-  public read(): void {
-    this.rawData = readFileSync(this.filename, { encoding: 'utf-8' });
-  }
+    for await (const chunk of readStream) {
+      remainingData += chunk.toString();
 
-  public toArray(): Offer[] {
-    this.validateRawData();
-    return this.parseRawDataToOffers();
+      while ((nextLinePosition = remainingData.indexOf('\n')) >= 0) {
+        const completeRow = remainingData.slice(0, nextLinePosition + 1);
+        remainingData = remainingData.slice(++nextLinePosition);
+        importedRowCount++;
+
+        const parsedOffer = this.parseLineToOffer(completeRow);
+        this.emit('line', parsedOffer);
+      }
+    }
+    this.emit('end', importedRowCount);
   }
 }
