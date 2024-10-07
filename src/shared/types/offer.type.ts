@@ -1,4 +1,5 @@
 import { Coordinates } from './coordinates.type.js';
+import { User } from './user.type.js';
 
 export type Offer = {
   name: string;
@@ -12,7 +13,7 @@ export type Offer = {
   bedrooms: number;
   guests: number;
   amenities: string[];
-  autor: string;
+  autor: User;
   price: number;
   coordinates: Coordinates;
 }

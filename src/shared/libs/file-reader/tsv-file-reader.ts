@@ -13,6 +13,20 @@ export class TSVFileReader extends EventEmitter implements FileReader {
     super();
   }
 
+  // name,
+  // describe,
+  // createData,
+  // city,
+  // previewImage,
+  // images,
+  // premium,
+  // price,
+  // rating,
+  // bedrooms,
+  // guests,
+  // amenities,
+  // autor,
+  // coordinates,
   private parseLineToOffer(line: string): Offer {
     const [
       name,
@@ -22,15 +36,15 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       previewImage,
       images,
       premium,
+      price,
       rating,
       bedrooms,
       guests,
       amenities,
       autor,
-      price,
       coordinates
     ] = line.split('\t');
-
+    const parseAutor = autor.split('|');
     return {
       name,
       description,
@@ -43,7 +57,12 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       bedrooms: Number(bedrooms),
       guests: Number(guests),
       amenities: amenities.split('|'),
-      autor,
+      autor: {
+        name: parseAutor[0],
+        avatarPath: parseAutor[1],
+        email: parseAutor[2],
+        typeUser: parseAutor[3],
+      },
       price: Number(price),
       coordinates: {latatude: Number(coordinates.split(',')[0]), longitude: Number(coordinates.split(',')[1])}
     };
@@ -68,7 +87,9 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         importedRowCount++;
 
         const parsedOffer = this.parseLineToOffer(completeRow);
-        this.emit('line', parsedOffer);
+        await new Promise((resolve) => {
+          this.emit('line', parsedOffer, resolve);
+        });
       }
     }
     this.emit('end', importedRowCount);
