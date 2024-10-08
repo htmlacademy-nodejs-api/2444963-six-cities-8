@@ -6,13 +6,11 @@ import {
   Ref
 } from '@typegoose/typegoose';
 
-// import { Coordinates } from '../../types/index.js';
 import { UserEntity } from '../user/user.entity.js';
-// import { UserEntity } from '../user/index.js';
 
 class Coordinates {
   @prop({ required: true })
-    latitude!: number;
+    latatude!: number;
 
   @prop({ required: true })
     longitude!: number;
@@ -61,8 +59,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ type: () => [String], required: true })
   public amenities!: string[];
 
-  @prop()
-  public autor!: string;
+  // @prop()
+  // public autor!: string;
 
   @prop()
   public price!: number;

@@ -22,7 +22,7 @@ export class TSVOfferGenerator implements OfferGenerator {
     const previewImage = getRandomItem(this.mockData.previewImage);
     const images = getRandomItems<string>(this.mockData.images).join('|');
     const premium = !!generateRandomValue(0, 1);
-    const price = !!generateRandomValue(0, 5);
+    const price = generateRandomValue(0, 5);
     const rating = generateRandomValue(0, 5);
     const bedrooms = generateRandomValue(0, 5);
     const guests = generateRandomValue(0, 5);

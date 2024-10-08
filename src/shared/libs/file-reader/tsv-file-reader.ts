@@ -13,20 +13,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
     super();
   }
 
-  // name,
-  // describe,
-  // createData,
-  // city,
-  // previewImage,
-  // images,
-  // premium,
-  // price,
-  // rating,
-  // bedrooms,
-  // guests,
-  // amenities,
-  // autor,
-  // coordinates,
+
   private parseLineToOffer(line: string): Offer {
     const [
       name,
@@ -64,7 +51,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         typeUser: parseAutor[3],
       },
       price: Number(price),
-      coordinates: {latatude: Number(coordinates.split(',')[0]), longitude: Number(coordinates.split(',')[1])}
+      coordinates: {latatude: Number(coordinates.split('|')[0]), longitude: Number(coordinates.split('|')[1])}
     };
   }
 
