@@ -1,3 +1,5 @@
+import { User } from './user.type.js';
+
 export type MockServerData = {
   name: string[];
   describe: string[];
@@ -11,7 +13,7 @@ export type MockServerData = {
   bedrooms: string[];
   guests: string[];
   amenities: string[];
-  autor: string[];
+  autor: User[];
   commentsCount: string[];
   coordinates: string[];
 }
