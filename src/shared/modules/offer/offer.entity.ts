@@ -59,9 +59,6 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ type: () => [String], required: true })
   public amenities!: string[];
 
-  // @prop()
-  // public autor!: string;
-
   @prop()
   public price!: number;
 
@@ -73,6 +70,9 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     required: true
   })
   public userId!: Ref<UserEntity>;
+
+  @prop({default: 0})
+  public commentCount!: number;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

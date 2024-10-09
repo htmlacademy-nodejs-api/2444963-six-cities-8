@@ -1,0 +1,64 @@
+openapi: 3.1.0
+info:
+  title: API Server for Demo Project "Six Cities"
+  description: |-
+    * List of resources and routes for the "Six Cities" server.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+tags:
+  - name: offers
+    description: Actions related to offers.
+  - name: comments
+    description: Actions related to comments.
+  - name: users
+    description: Actions related to the user.
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: User registration
+      description: Registers a new user.
+
+      requestBody:
+        description: Information for creating a new user.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201":
+          description: User registered. User object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "409":
+          description: A user with this email already exists.
+
+          
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: User authentication
+      description: Authenticates a user based on login and password.
+
+    get:
+      tags:
+        - users
+      summary: User status check
+      description: Returns information about the authenticated user.
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Upload avatar image
+      description: Uploads the user's avatar image. The avatar image must be in
+        `png` or `jpg` format.
