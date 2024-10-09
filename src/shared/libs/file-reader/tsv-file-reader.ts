@@ -3,6 +3,7 @@ import { createReadStream } from 'node:fs';
 
 import { FileReader } from './file-reader.interface.js';
 import { Offer} from '../../types/index.js';
+import { TSV_SEPARATOR } from '../../constants.js';
 
 export class TSVFileReader extends EventEmitter implements FileReader {
   private CHUNK_SIZE = 16384; // 16KB
@@ -13,6 +14,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
     super();
   }
 
+  separator: string = TSV_SEPARATOR;
 
   private parseLineToOffer(line: string): Offer {
     const [
@@ -38,12 +40,12 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       createdData: new Date(createdDate),
       city,
       previewImage,
-      images: images.split('|'),
+      images: images.split(this.separator),
       premium: premium.toLocaleLowerCase() === 'true',
       rating: Number(rating),
       bedrooms: Number(bedrooms),
       guests: Number(guests),
-      amenities: amenities.split('|'),
+      amenities: amenities.split(this.separator),
       autor: {
         name: parseAutor[0],
         avatarPath: parseAutor[1],
@@ -51,7 +53,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
         typeUser: parseAutor[3],
       },
       price: Number(price),
-      coordinates: {latatude: Number(coordinates.split('|')[0]), longitude: Number(coordinates.split('|')[1])}
+      coordinates: {latatude: Number(coordinates.split(this.separator)[0]), longitude: Number(coordinates.split(this.separator)[1])}
     };
   }
 
