@@ -13,5 +13,6 @@ export interface OfferService {
   incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   exists(documentId: string): Promise<boolean>;
   findFavorite(count: number): Promise<DocumentType<OfferEntity>[]>;
-  findPremium(count: number): Promise<DocumentType<OfferEntity>[]>
+  findPremium(count: number): Promise<DocumentType<OfferEntity>[]>;
+  calculateRating(offerId: string, newRating: number): Promise<DocumentType<OfferEntity> | null>;
 }
