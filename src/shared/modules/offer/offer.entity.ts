@@ -10,10 +10,10 @@ import { UserEntity } from '../user/user.entity.js';
 
 class Coordinates {
   @prop({ required: true })
-    latatude!: number;
+    latitude: number;
 
   @prop({ required: true })
-    longitude!: number;
+    longitude: number;
 }
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export interface OfferEntity extends defaultClasses.Base {}
@@ -27,52 +27,52 @@ export interface OfferEntity extends defaultClasses.Base {}
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
 export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ trim: true, required: true })
-  public name!: string;
+  public name: string;
 
   @prop({trim: true})
-  public description!: string;
+  public description: string;
 
   @prop()
-  public previewImage!: string;
+  public previewImage: string;
 
   @prop()
-  public city!: string;
+  public city: string;
 
   @prop()
-  public createdData!: Date;
+  public createdData: Date;
 
   @prop({ type: () => [String], required: true })
-  public images!: string[];
+  public images: string[];
 
   @prop()
-  public premium!: boolean;
+  public premium: boolean;
 
   @prop({ required: true, type: () => Number, default: 0 })
-  public rating!: number;
+  public rating: number;
 
   @prop()
   public bedrooms: number;
 
   @prop()
-  public guests!: number;
+  public guests: number;
 
   @prop({ type: () => [String], required: true })
-  public amenities!: string[];
+  public amenities: string[];
 
   @prop()
-  public price!: number;
+  public price: number;
 
   @prop()
-  public coordinates!: Coordinates;
+  public coordinates: Coordinates;
 
   @prop({
     ref: UserEntity,
     required: true
   })
-  public userId!: Ref<UserEntity>;
+  public userId: Ref<UserEntity>;
 
   @prop({default: 0})
-  public commentCount!: number;
+  public commentCount: number;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);

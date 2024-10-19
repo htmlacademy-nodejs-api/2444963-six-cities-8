@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: API Server for Demo Project "Six Cities"
   description: |-
@@ -21,44 +21,64 @@ paths:
         - users
       summary: User registration
       description: Registers a new user.
-
       requestBody:
         description: Information for creating a new user.
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createUser'
-        required: true
-
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
       responses:
         "201":
-          description: User registered. User object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-
+          description: User registered successfully.
         "409":
           description: A user with this email already exists.
 
-          
   /users/login:
     post:
       tags:
         - users
       summary: User authentication
       description: Authenticates a user based on login and password.
+      responses:
+        "200":
+          description: User authenticated successfully.
+        "401":
+          description: Invalid credentials.
 
     get:
       tags:
         - users
       summary: User status check
       description: Returns information about the authenticated user.
+      responses:
+        "200":
+          description: User is authenticated.
+        "401":
+          description: User is not authenticated.
 
   /users/{userId}/avatar:
     post:
       tags:
         - users
       summary: Upload avatar image
-      description: Uploads the user's avatar image. The avatar image must be in
-        `png` or `jpg` format.
+      description: Uploads the user's avatar image. The avatar image must be in `png` or `jpg` format.
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Avatar uploaded successfully.
+        "400":
+          description: Invalid file format.

@@ -15,22 +15,21 @@ const LAST_WEEK_DAY = 7;
 
 export class TSVOfferGenerator implements OfferGenerator {
   constructor(private readonly mockData: MockServerData) {}
-  separator: string = TSV_SEPARATOR;
   public generate(): string {
     const name = getRandomItem<string>(this.mockData.name);
     const describe = getRandomItem<string>(this.mockData.describe);
     const city = getRandomItem<string>(this.mockData.city);
     const previewImage = getRandomItem(this.mockData.previewImage);
-    const images = getRandomItems<string>(this.mockData.images).join(this.separator);
+    const images = getRandomItems<string>(this.mockData.images).join(TSV_SEPARATOR);
     const premium = !!generateRandomValue(0, 1);
-    const price = generateRandomValue(0, 5);
+    const price = generateRandomValue(50, 200);
     const rating = generateRandomValue(0, 5);
     const bedrooms = generateRandomValue(0, 5);
     const guests = generateRandomValue(0, 5);
-    const amenities = getRandomItems<string>(this.mockData.amenities).join(this.separator);
-    const autorRandom = getRandomItem(this.mockData.autor);
-    const autor = `${autorRandom.name}|${autorRandom.avatarPath}|${autorRandom.email}|${autorRandom.typeUser}`;
-    const coordinates = `${generateRandomValue(1000, 3000).toString()}${this.separator}${generateRandomValue(1000, 3000).toString()}`;
+    const amenities = getRandomItems<string>(this.mockData.amenities).join(TSV_SEPARATOR);
+    const authorRandom = getRandomItem(this.mockData.author);
+    const author = [authorRandom.name, authorRandom.avatarPath, authorRandom.email, authorRandom.typeUser].join(TSV_SEPARATOR);
+    const coordinates = [generateRandomValue(1000, 3000), generateRandomValue(1000, 3000)].join(TSV_SEPARATOR);
     const createData = dayjs()
       .subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day')
       .toISOString();
@@ -48,7 +47,7 @@ export class TSVOfferGenerator implements OfferGenerator {
       bedrooms,
       guests,
       amenities,
-      autor,
+      author,
       coordinates,
     ].join('\t');
   }

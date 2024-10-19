@@ -13,7 +13,7 @@ export type MockServerData = {
   bedrooms: string[];
   guests: string[];
   amenities: string[];
-  autor: User[];
+  author: User[];
   commentsCount: string[];
   coordinates: string[];
 }

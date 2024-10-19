@@ -14,8 +14,6 @@ export class TSVFileReader extends EventEmitter implements FileReader {
     super();
   }
 
-  separator: string = TSV_SEPARATOR;
-
   private parseLineToOffer(line: string): Offer {
     const [
       name,
@@ -30,30 +28,34 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       bedrooms,
       guests,
       amenities,
-      autor,
+      author,
       coordinates
     ] = line.split('\t');
-    const parseAutor = autor.split('|');
+
+    const parseAuthor = author.split(TSV_SEPARATOR);
+    const lat = Number(coordinates.split(TSV_SEPARATOR)[0]);
+    const lon = Number(coordinates.split(TSV_SEPARATOR)[1]);
+
     return {
       name,
       description,
       createdData: new Date(createdDate),
       city,
       previewImage,
-      images: images.split(this.separator),
+      images: images.split(TSV_SEPARATOR),
       premium: premium.toLocaleLowerCase() === 'true',
       rating: Number(rating),
       bedrooms: Number(bedrooms),
       guests: Number(guests),
-      amenities: amenities.split(this.separator),
-      autor: {
-        name: parseAutor[0],
-        avatarPath: parseAutor[1],
-        email: parseAutor[2],
-        typeUser: parseAutor[3],
+      amenities: amenities.split(TSV_SEPARATOR),
+      author: {
+        name: parseAuthor[0],
+        avatarPath: parseAuthor[1],
+        email: parseAuthor[2],
+        typeUser: parseAuthor[3],
       },
       price: Number(price),
-      coordinates: {latatude: Number(coordinates.split(this.separator)[0]), longitude: Number(coordinates.split(this.separator)[1])}
+      coordinates: {latitude: lat, longitude: lon}
     };
   }
 

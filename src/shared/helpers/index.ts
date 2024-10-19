@@ -2,7 +2,9 @@ export {
   generateRandomValue,
   getRandomItems,
   getRandomItem,
-  getErrorMessage
+  getErrorMessage,
+  createErrorObject,
+  fillDTO
 } from './common.js';
 
 export { getCurrentModuleDirectoryPath } from './file-system.js';

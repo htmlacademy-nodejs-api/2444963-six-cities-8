@@ -13,7 +13,7 @@ export type Offer = {
   bedrooms: number;
   guests: number;
   amenities: string[];
-  autor: User;
+  author: User;
   price: number;
   coordinates: Coordinates;
 }
