@@ -2,7 +2,7 @@ import EventEmitter from 'node:events';
 import { createReadStream } from 'node:fs';
 
 import { FileReader } from './file-reader.interface.js';
-import { Offer} from '../../types/index.js';
+import { Cities, Offer} from '../../types/index.js';
 import { TSV_SEPARATOR } from '../../constants.js';
 
 export class TSVFileReader extends EventEmitter implements FileReader {
@@ -18,6 +18,7 @@ export class TSVFileReader extends EventEmitter implements FileReader {
     const [
       name,
       description,
+      offerType,
       createdDate,
       city,
       previewImage,
@@ -32,15 +33,15 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       coordinates
     ] = line.split('\t');
 
-    const parseAuthor = author.split(TSV_SEPARATOR);
-    const lat = Number(coordinates.split(TSV_SEPARATOR)[0]);
-    const lon = Number(coordinates.split(TSV_SEPARATOR)[1]);
+    const [userName, avatarPath, email, typeUser] = author.split(TSV_SEPARATOR);
+    const [lat, lon] = coordinates.split(TSV_SEPARATOR);
 
     return {
       name,
       description,
+      offerType,
       createdData: new Date(createdDate),
-      city,
+      city: city as Cities,
       previewImage,
       images: images.split(TSV_SEPARATOR),
       premium: premium.toLocaleLowerCase() === 'true',
@@ -49,13 +50,13 @@ export class TSVFileReader extends EventEmitter implements FileReader {
       guests: Number(guests),
       amenities: amenities.split(TSV_SEPARATOR),
       author: {
-        name: parseAuthor[0],
-        avatarPath: parseAuthor[1],
-        email: parseAuthor[2],
-        typeUser: parseAuthor[3],
+        name: userName,
+        avatarPath,
+        email,
+        typeUser,
       },
       price: Number(price),
-      coordinates: {latitude: lat, longitude: lon}
+      coordinates: {latitude: Number(lat), longitude: Number(lon)}
     };
   }
 
