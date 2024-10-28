@@ -1,11 +1,13 @@
+import { Cities } from './cities.type.js';
 import { Coordinates } from './coordinates.type.js';
 import { User } from './user.type.js';
 
 export type Offer = {
   name: string;
   description: string;
+  offerType: string;
   createdData: Date;
-  city: string;
+  city: Cities;
   previewImage: string,
   images: string[];
   premium: boolean;

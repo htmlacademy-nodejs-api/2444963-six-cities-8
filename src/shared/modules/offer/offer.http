@@ -1,0 +1,59 @@
+# Get an offer by id
+GET http://localhost:4000/offers/62711a50b0e24a624d49ffdc HTTP/1.1
+
+###
+
+# Get offers
+GET http://localhost:4000/offers HTTP/1.1
+
+###
+
+# Create new offer
+
+POST http://localhost:4000/offers HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Name of the hotel",
+  "description": "Description of the offer",
+  "createdData": "2022-05-12T11:56:37.573Z",
+  "city": "Amsterdam",
+  "previewImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM58Tgdd4Uiwmc0edIlCDTF_Ur9iKVOMgjKQ&s",
+  "images": ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM58Tgdd4Uiwmc0edIlCDTF_Ur9iKVOMgjKQ&s", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRFiOGwTIP1VqaSwawedSha20CwjDqQZ3nBA&s"],
+  "premium": "false",
+  "rating": 4,
+  "bedrooms": 1,
+  "guests": 2,
+  "price": 100,
+  "amenities": ["wifi", "tv"],
+  "author": "id1234",
+  "coordinates": [10002, 10100]
+}
+
+###
+
+
+# Delete an offer by id
+
+DELETE http://localhost:4000/offers/62825028a75295825778ac80 HTTP/1.1
+
+###
+
+# Update an offer
+
+PATCH http://localhost:4000/offers/652e71c6d9f30c786a73f139 HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "New name of the offer",
+  "description": "New description",
+  "price": 1400
+}
+
+###
+
+
+# Get comment list of the offer
+GET http://localhost:4000/offers/628a27d729c45f2bf9f6806a/comments HTTP/1.1
+
+###

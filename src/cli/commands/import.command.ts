@@ -46,6 +46,7 @@ export class ImportCommand implements Command {
       userId: user.id,
       name: offer.name,
       description: offer.description,
+      offerType: offer.offerType,
       previewImage: offer.previewImage,
       images: offer.images,
       createdData: offer.createdData,
