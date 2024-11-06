@@ -23,8 +23,6 @@ export class OwnershipMiddleware implements Middleware {
       );
     }
 
-    console.log(`Offer userId: ${offer.userId._id}, Request userId: ${userId}`);
-
     if (offer.userId._id.toString() !== userId) {
       throw new HttpError(
         StatusCodes.FORBIDDEN,
