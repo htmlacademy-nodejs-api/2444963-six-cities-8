@@ -1,4 +1,4 @@
-import { Cities } from './cities.type.js';
+import { Cities } from './city.enum.js';
 import { Coordinates } from './coordinates.type.js';
 import { User } from './user.type.js';
 
@@ -6,7 +6,6 @@ export type Offer = {
   name: string;
   description: string;
   offerType: string;
-  createdData: Date;
   city: Cities;
   previewImage: string,
   images: string[];

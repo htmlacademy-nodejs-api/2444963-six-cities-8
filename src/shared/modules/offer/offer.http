@@ -26,7 +26,7 @@ Content-Type: application/json
   "guests": 2,
   "price": 100,
   "amenities": ["wifi", "tv"],
-  "author": "id1234",
+  "author": "67019ff9540d6959d8386b33",
   "coordinates": [10002, 10100]
 }
 

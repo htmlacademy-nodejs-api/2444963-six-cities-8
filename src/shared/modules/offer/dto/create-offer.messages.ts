@@ -1,7 +1,11 @@
 export const CreateOfferValidationMessage = {
   name: {
+    invalidFormat: 'The name must be type of String',
     minLength: 'Minimum title length must be 10',
     maxLength: 'Maximum title length must be 100',
+  },
+  city: {
+    invalidFormat: 'The city must be one of the Cities list'
   },
   description: {
     minLength: 'Minimum description length must be 20',

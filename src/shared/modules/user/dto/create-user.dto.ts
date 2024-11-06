@@ -14,6 +14,7 @@ export class CreateUserDto {
   @IsString({ message: CreateUserMessages.avatarPath.invalidFormat })
   public avatarPath: string;
 
+  @IsString()
   public typeUser: string;
 
   @IsString({ message: CreateUserMessages.password.invalidFormat })

@@ -10,6 +10,8 @@ export const CreateCommentMessages = {
     invalidFormat: 'userId field must be a valid id'
   },
   rating: {
-    lengthField: 'rating field must be more then 0 and les then 5'
+    invalidFormat: 'rating field must be type of Number',
+    minLength: 'Rating must be at least 1',
+    maxLength: 'Rating must be no more than 5'
   }
 } as const;
