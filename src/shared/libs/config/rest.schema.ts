@@ -68,6 +68,6 @@ export const configRestSchema = convict<RestSchema>({
     doc: 'Secret for sign JWT',
     format: String,
     env: 'JWT_SECRET',
-    default: null
+    default: 'secret'
   },
 });
