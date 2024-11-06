@@ -26,7 +26,8 @@ export class DefaultOfferService implements OfferService {
 
   public async find(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
-      .find({DEFAULT_OFFER_COUNT})
+      .find()
+      .limit(DEFAULT_OFFER_COUNT)
       .populate(['userId'])
       .exec();
   }

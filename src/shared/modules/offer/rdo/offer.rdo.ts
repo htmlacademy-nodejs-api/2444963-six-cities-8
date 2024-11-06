@@ -1,28 +1,44 @@
 import { Expose, Type } from 'class-transformer';
 
 import { UserRdo } from '../../user/rdo/user.rdo.js';
+import { Coordinates } from '../../../types/coordinates.type.js';
 
 export class OfferRdo {
   @Expose()
   public id: string;
 
   @Expose()
-  public title: string;
+  public name: string;
+
+  @Expose()
+  public city: string;
+
+  @Expose()
+  public guests: number;
+
+  @Expose()
+  public premium: boolean;
 
   @Expose()
   public description: string;
 
   @Expose()
-  public image: string;
+  public previewImage: string;
 
   @Expose()
-  public postDate: string;
+  public images: string[];
+
+  @Expose()
+  public createdData: string;
+
+  @Expose()
+  public coordinates: Coordinates;
 
   @Expose()
   public price: number;
 
   @Expose()
-  public type: string;
+  public offerType: string;
 
   @Expose()
   public commentCount: number;

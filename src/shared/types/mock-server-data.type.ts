@@ -3,7 +3,6 @@ import { User } from './user.type.js';
 export type MockServerData = {
   name: string[];
   describe: string[];
-  createData: string[];
   offerType: string[];
   city: string[];
   previewImage: string[],

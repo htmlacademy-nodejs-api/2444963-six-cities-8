@@ -8,8 +8,10 @@ import {
   HttpMethod,
   ValidateObjectIdMiddleware,
   ValidateDtoMiddleware,
-  DocumentExistsMiddleware
-} from '../../libs/rest/index.js';import { Component } from '../../types/index.js';
+  DocumentExistsMiddleware,
+  PrivateRouteMiddleware
+} from '../../libs/rest/index.js';
+import { Component } from '../../types/index.js';
 import { Logger } from '../../libs/logger/index.js';
 import { fillDTO } from '../../helpers/index.js';
 import { OfferRdo } from './rdo/offer.rdo.js';
@@ -27,30 +29,39 @@ export default class OfferController extends BaseController {
   ) {
     super(logger);
 
+    const middlewares = [
+      new ValidateObjectIdMiddleware('offerId'),
+      new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+    ];
+
     this.logger.info('Register routes for OfferController');
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.get,
       handler: this.show,
-      middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
-      ]
+      middlewares
     });
-    this.addRoute({ path: '/', method: HttpMethod.get, handler: this.index });
+    this.addRoute({
+      path: '/',
+      method: HttpMethod.get,
+      handler: this.index
+    });
     this.addRoute({
       path: '/',
       method: HttpMethod.post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares: [
+        new PrivateRouteMiddleware(),
+        new ValidateDtoMiddleware(CreateOfferDto)
+      ]
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.delete,
       handler: this.delete,
       middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+        ...middlewares,
+        new PrivateRouteMiddleware(),
       ]
     });
     this.addRoute({
@@ -58,32 +69,29 @@ export default class OfferController extends BaseController {
       method: HttpMethod.patch,
       handler: this.update,
       middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
-        new ValidateDtoMiddleware(UpdateOfferDto),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+        ...middlewares,
+        new PrivateRouteMiddleware(),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new ValidateDtoMiddleware(UpdateOfferDto)
       ]
     });
     this.addRoute({
       path: '/:offerId/comments',
       method: HttpMethod.get,
       handler: this.getComments,
-      middlewares: [
-        new ValidateObjectIdMiddleware('offerId'),
-        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
-      ]
+      middlewares
     });
   }
 
   public async show({ params }: Request<ParamOfferId>, res: Response): Promise<void> {
     const { offerId } = params;
     const offer = await this.offerService.findById(offerId);
-
+    console.log(offer);
     this.ok(res, fillDTO(OfferRdo, offer));
   }
 
   public async index(_req: Request, res: Response) {
     const offers = await this.offerService.find();
-    console.log(this.offerService); // почему то пустой массив при запросе списка офферов --------------
     this.ok(res, fillDTO(OfferRdo, offers));
   }
 
@@ -95,8 +103,9 @@ export default class OfferController extends BaseController {
     this.noContent(res, offer);
   }
 
-  public async create({ body }: CreateOfferRequest, res: Response): Promise<void> {
-    const result = await this.offerService.create(body);
+  public async create({ body, tokenPayload }: CreateOfferRequest, res: Response): Promise<void> {
+    const result = await this.offerService.create({ ...body, userId: tokenPayload.id });
+    console.log(result);
     const offer = await this.offerService.findById(result.id);
     this.created(res, fillDTO(OfferRdo, offer));
   }
