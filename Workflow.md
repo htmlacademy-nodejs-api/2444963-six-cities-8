@@ -1,6 +1,22 @@
 # Как работать над проектом
 
 ## Окружение
+# Server Configuration
+PORT=5000
+
+# Database Configuration
+DB_USER=admin
+DB_PASSWORD=test
+DB_NAME=six-cities
+DB_PORT=27017
+DB_HOST=127.0.0.1
+
+# Security and Authentication
+JWT_SECRET=secret
+SALT=secret
+
+# File Storage
+UPLOAD_DIRECTORY=uploads
 
 Для удобства работы над проектом используются инструменты из **Node.js** и **npm**. Все необходимые настройки произведены. Убедитесь, что на рабочем компьютере установлен актуальный LTS релиз Node.js**. Актуальная версия **Node.js** указана в файле `package.json` в поле `node`. Затем, в терминале, перейдите в директорию с проектом и _единожды_ запустите команду:
 

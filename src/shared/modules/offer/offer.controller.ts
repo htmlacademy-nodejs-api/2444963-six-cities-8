@@ -19,6 +19,7 @@ import { CreateOfferRequest } from './type/create-offer-request.type.js';
 import { UpdateOfferDto } from './dto/update-offer.dto.js';
 import { CommentRdo, CommentService } from '../comment/index.js';
 import { CreateOfferDto } from './dto/create-offer.dto.js';
+import { OwnershipMiddleware } from '../../libs/rest/middleware/ownership.middleware.js';
 
 @injectable()
 export default class OfferController extends BaseController {
@@ -62,6 +63,7 @@ export default class OfferController extends BaseController {
       middlewares: [
         ...middlewares,
         new PrivateRouteMiddleware(),
+        new OwnershipMiddleware(this.offerService),
       ]
     });
     this.addRoute({
@@ -70,6 +72,7 @@ export default class OfferController extends BaseController {
       handler: this.update,
       middlewares: [
         ...middlewares,
+        new OwnershipMiddleware(this.offerService),
         new PrivateRouteMiddleware(),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto)

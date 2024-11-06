@@ -13,7 +13,6 @@ function isTokenPayload(payload: unknown): payload is TokenPayload {
     (typeof payload === 'object' && payload !== null) &&
     ('email' in payload && typeof payload.email === 'string') &&
     ('name' in payload && typeof payload.name === 'string') &&
-    ('typeUser' in payload && typeof payload.typeUser === 'string') &&
     ('id' in payload && typeof payload.id === 'string')
   );
 }
